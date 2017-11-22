@@ -37,9 +37,16 @@ public class RunTest {
 
     private List<String[]> getDatas(List<Question> questions) {
         List<String[]> datas = new ArrayList<String[]>();
-        for (Question item : questions) {
-            String[] items = new String[]{ item.getTiMuContent(),item.getDifficulty().toString(), item.getKey(),
-                    item.getaContent(), item.getbContent(), item.getcContent(), item.getdContent(),item.getRightAnswer(),item.getParseContent()};
+//        for (Question item : questions) {
+//            String[] items = new String[]{ item.getTiMuContent(),item.getDifficulty().toString(), item.getKey(),
+//                    item.getaContent(), item.getbContent(), item.getcContent(), item.getdContent(),item.getRightAnswer(),item.getParseContent()};
+//            datas.add(items);
+//        }
+
+        for(int i= questions.size() - 1; i >=0; i--){
+            Question item = questions.get(i);
+            String[] items = new String[]{item.getTiMuContent(), item.getDifficulty().toString(), item.getKey(),
+                    item.getaContent(), item.getbContent(), item.getcContent(), item.getdContent(), item.getRightAnswer(), item.getParseContent()};
             datas.add(items);
         }
         return datas;
