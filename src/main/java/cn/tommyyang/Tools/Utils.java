@@ -24,6 +24,7 @@ public class Utils {
         list.add("B.");
         list.add("C.");
         list.add("D.");
+        list.add("D．");
         return list;
     }
 
@@ -38,6 +39,23 @@ public class Utils {
         String[] strings = new String[]{"题库分类", "题型",
                 "题干", "选项A", "选项B", "选项C", "选项D"};
         return strings;
+    }
+
+    public static String formatLine(String line){
+        String aerror = "A．";
+        String berror = "B．";
+        String cerror = "C．";
+        String derror = "D．";
+        if(line.contains(aerror)){
+            line = line.replace(aerror, "A.");
+        }else if(line.contains(berror)){
+            line = line.replace(berror, "B.");
+        }else if(line.contains(cerror)){
+            line = line.replace(cerror, "C.");
+        }else if(line.contains(derror)){
+            line = line.replace(derror, "D.");
+        }
+        return line;
     }
 
 }
