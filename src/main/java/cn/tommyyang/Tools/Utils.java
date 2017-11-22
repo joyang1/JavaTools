@@ -13,7 +13,7 @@ public class Utils {
     public static Set getStartFlags() {
         Set<String> set = new HashSet<String>();
         for (int i = 1; i <= 125; i++) {
-            set.add(i + ".");
+            set.add(i+"");
         }
         return set;
     }
@@ -36,8 +36,8 @@ public class Utils {
     }
 
     public static String[] getHeaders() {
-        String[] strings = new String[]{"题库分类", "题型",
-                "题干", "选项A", "选项B", "选项C", "选项D"};
+        String[] strings = new String[]{"题目", "难度",
+                "关键词", "答案选项1", "答案选项2", "答案选项3", "答案选项4","正确答案","解析"};
         return strings;
     }
 
@@ -56,6 +56,13 @@ public class Utils {
             line = line.replace(derror, "D.");
         }
         return line;
+    }
+
+    public static String getExcelFileName(String txtName){
+        if(txtName.endsWith(".txt")){
+            return txtName.replace(".txt",".xls");
+        }
+        return "";
     }
 
 }

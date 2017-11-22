@@ -1,5 +1,6 @@
 package cn.tommyyang.Tools;
 
+import cn.tommyyang.Constant.Constant;
 import cn.tommyyang.model.Question;
 
 import java.io.*;
@@ -28,6 +29,10 @@ public class FileHepler {
         String cContent = "";
         String dContent = "";
         String tiMuContent = "";
+        String dananContent = "";
+        String jiexiContent = "";
+        Boolean isTimuNow = false;
+        Boolean isJiexiNow = false;
         List<Question> questions = new ArrayList<Question>();
         try {
             FileInputStream inputStream = new FileInputStream(new File(filePath));
@@ -36,94 +41,124 @@ public class FileHepler {
             BufferedReader bufReader = new BufferedReader(ur);
             String tiGanContent = "";
             while (bufReader.ready()) {
-                String line = Utils.formatLine(bufReader.readLine().trim());
-                if (line.equals("") || line.length() < 1) {
-                    continue;
-                }
-
-                if (check(tiGanTypes, line)) {
-                    tiGanContent = line;
-                } else {
-                    Boolean flag = line.contains(aStart);
-                    if (qStart.contains(line.substring(0, 1)) || !flag) {
-                        tiMuContent += line;
+                try {
+                    String line = Utils.formatLine(bufReader.readLine().trim());
+                    if (line.equals("") || line.length() < 1) {
+                        continue;
                     }
-                    if (line.contains(aStart) && line.contains(bStart)) {
+
+                    Boolean aflag = line.startsWith(aStart);
+                    if(aflag){
+                        isTimuNow = false;
+                    }
+
+                    if (line.startsWith(aStart) && line.startsWith(bStart)) {
                         aContent = line.substring(line.indexOf(aStart), line.indexOf(bStart));
                         bContent = line.substring(line.indexOf(bStart), line.length());
-                    }else if (line.contains(bStart) && line.contains(cStart) && line.contains(dStart)) {
+                        continue;
+                    } else if (line.startsWith(bStart) && line.startsWith(cStart) && line.startsWith(dStart)) {
                         bContent = line.substring(line.indexOf(bStart), line.indexOf(cStart));
                         cContent = line.substring(line.indexOf(cStart), line.indexOf(dStart));
                         dContent = line.substring(line.indexOf(dStart), line.length());
-                        Question question = new Question();
-                        question.setType(tiGanContent);
-                        question.setQtype("单选");
-                        question.setKey("");
-                        question.setTiMuContent(tiMuContent);
-                        question.setaContent(aContent);
-                        question.setbContent(bContent);
-                        question.setcContent(cContent);
-                        question.setdContent(dContent);
-                        questions.add(question);
-                        aContent = "";
-                        bContent = "";
-                        cContent = "";
-                        dContent = "";
-                        tiMuContent = "";
-                    } else if (line.contains(cStart) && line.contains(dStart)) {
+                        continue;
+                    } else if (line.startsWith(cStart) && line.startsWith(dStart)) {
                         cContent = line.substring(line.indexOf(cStart), line.indexOf(dStart));
                         dContent = line.substring(line.indexOf(dStart), line.length());
-                        Question question = new Question();
-                        question.setType(tiGanContent);
-                        question.setQtype("单选");
-                        question.setKey("");
-                        question.setTiMuContent(tiMuContent);
-                        question.setaContent(aContent);
-                        question.setbContent(bContent);
-                        question.setcContent(cContent);
-                        question.setdContent(dContent);
-                        questions.add(question);
-                        aContent = "";
-                        bContent = "";
-                        cContent = "";
-                        dContent = "";
-                        tiMuContent = "";
-                    }else if (flag) {
+                        continue;
+                    } else if (aflag) {
                         aContent = line;
-                    } else if (line.contains(bStart)) {
+                        continue;
+                    } else if (line.startsWith(bStart)) {
                         bContent = line;
-                    } else if (line.contains(cStart)) {
+                        continue;
+                    } else if (line.startsWith(cStart)) {
                         cContent = line;
-                    } else if (line.contains(dStart)) {
+                        continue;
+                    } else if (line.startsWith(dStart)) {
                         dContent = line;
+                        continue;
+                    }
+
+                    boolean timuStartFlag = qStart.contains(line.substring(0, 1)) || qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 3));
+                    if(timuStartFlag){
+                        isTimuNow = true;
+                    }
+                    if (line.contains(Constant.DanAnStart1) || line.contains(Constant.DanAnStart2) || line.contains(Constant.DanAnStart3)) {
+                        dananContent += line;
+                        continue;
+                    }
+
+                    if(timuStartFlag && !jiexiContent.equals("")){
                         Question question = new Question();
-                        question.setType(tiGanContent);
-                        question.setQtype("单选");
                         question.setKey("");
                         question.setTiMuContent(tiMuContent);
                         question.setaContent(aContent);
                         question.setbContent(bContent);
                         question.setcContent(cContent);
                         question.setdContent(dContent);
+                        question.setRightAnswer(dananContent);
+                        question.setParseContent(jiexiContent);
+                        question.setDifficulty(1);
                         questions.add(question);
                         aContent = "";
                         bContent = "";
                         cContent = "";
                         dContent = "";
                         tiMuContent = "";
+                        dananContent = "";
+                        jiexiContent = "";
+                        isJiexiNow = false;
                     }
+                    Boolean isJieXiStart = line.contains(Constant.JieXiStart1) || line.contains(Constant.JieXiStart2);
+                    if(isJieXiStart){
+                        isJiexiNow = true;
+                    }
+                    if (isJieXiStart || isJiexiNow) {
+                        jiexiContent += line;
+                        continue;
+                    }
+                    if (timuStartFlag || isTimuNow) {
+                        tiMuContent += line;
+                        continue;
+                    }
+                }catch (Exception e){
+                    aContent = "";
+                    bContent = "";
+                    cContent = "";
+                    dContent = "";
+                    tiMuContent = "";
+                    dananContent = "";
+                    jiexiContent = "";
+                    isTimuNow = false;
+                    isJiexiNow = false;
                 }
+            }
+            if(!jiexiContent.equals("")){
+                Question question = new Question();
+                question.setKey("");
+                question.setTiMuContent(tiMuContent);
+                question.setaContent(aContent);
+                question.setbContent(bContent);
+                question.setcContent(cContent);
+                question.setdContent(dContent);
+                question.setRightAnswer(dananContent);
+                question.setParseContent(jiexiContent);
+                question.setDifficulty(1);
+                questions.add(question);
             }
             return questions;
         } catch (Exception e) {
+            if(questions.size()>0){
+                return questions;
+            }
             System.out.println(e);
         }
         return null;
     }
 
-    private static Boolean check(List<String> items, String checkItem){
-        for (String item: items) {
-            if(item.equals(checkItem)){
+    private static Boolean check(List<String> items, String checkItem) {
+        for (String item : items) {
+            if (item.equals(checkItem)) {
                 return true;
             }
         }

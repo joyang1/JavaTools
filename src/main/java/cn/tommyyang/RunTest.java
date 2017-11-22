@@ -5,6 +5,7 @@ import cn.tommyyang.Tools.FileHepler;
 import cn.tommyyang.Tools.Utils;
 import cn.tommyyang.model.Question;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,19 +15,31 @@ import java.util.List;
 public class RunTest {
 
     public static void main(String[] args){
-        String path = "E:\\test.txt";
-        String destPath = "E:\\test.xls";
-        String[] fileHeader = Utils.getHeaders();
-        List<Question> questions = FileHepler.readFileContent(path);
-        List<String[]> datas = new RunTest().getDatas(questions);
-        ExcelTool.writeExcel(destPath, "试卷内容",0,fileHeader, datas);
+        String path = "E:\\runtest";
+        File directory = new File(path);
+        if(directory.isDirectory()){
+            File[] files = directory.listFiles();
+            for (File file:files) {
+                String name = file.getName();
+                String xlsName = Utils.getExcelFileName(name);
+                String txtPath = path + "\\" + name;
+                String xlsPath = path + "\\" + xlsName;
+                String[] fileHeader = Utils.getHeaders();
+                List<Question> questions = FileHepler.readFileContent(txtPath);
+                List<String[]> datas = new RunTest().getDatas(questions);
+                ExcelTool.writeExcel(xlsPath, "试卷内容",0,fileHeader, datas);
+            }
+
+        }
+
+
     }
 
     private List<String[]> getDatas(List<Question> questions) {
         List<String[]> datas = new ArrayList<String[]>();
         for (Question item : questions) {
-            String[] items = new String[]{item.getType(), item.getQtype(), item.getTiMuContent(),
-                    item.getaContent(), item.getbContent(), item.getcContent(), item.getdContent()};
+            String[] items = new String[]{ item.getTiMuContent(),item.getDifficulty().toString(), item.getKey(),
+                    item.getaContent(), item.getbContent(), item.getcContent(), item.getdContent(),item.getRightAnswer(),item.getParseContent()};
             datas.add(items);
         }
         return datas;
