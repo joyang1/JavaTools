@@ -3,9 +3,12 @@ package cn.tommyyang.Tools;
 import cn.tommyyang.model.Question;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import static java.lang.System.in;
 
 /**
  * Created by TommyYang on 2017/11/19.
@@ -24,19 +27,21 @@ public class FileHepler {
         String bContent = "";
         String cContent = "";
         String dContent = "";
+        String tiMuContent = "";
         List<Question> questions = new ArrayList<Question>();
         try {
             FileInputStream inputStream = new FileInputStream(new File(filePath));
-            InputStreamReader inReader = new InputStreamReader(inputStream, "UTF-8");
-            BufferedReader bufReader = new BufferedReader(inReader);
+            //InputStreamReader inReader = new InputStreamReader(inputStream, "UTF-8");
+            UnicodeReader ur = new UnicodeReader(inputStream, "UTF-8");
+            BufferedReader bufReader = new BufferedReader(ur);
             String tiGanContent = "";
-            String tiMuContent = "";
             while (bufReader.ready()) {
-                String line = bufReader.readLine();
+                String line = Utils.formatLine(bufReader.readLine().trim());
                 if (line.equals("") || line.length() < 1) {
                     continue;
                 }
-                if (tiGanTypes.contains(line.trim())) {
+
+                if (check(tiGanTypes, line)) {
                     tiGanContent = line;
                 } else {
                     Boolean flag = line.contains(aStart);
@@ -45,11 +50,45 @@ public class FileHepler {
                     }
                     if (line.contains(aStart) && line.contains(bStart)) {
                         aContent = line.substring(line.indexOf(aStart), line.indexOf(bStart));
-                        bContent = line.substring(line.indexOf(bStart), line.length() -1);
-                    } else if (line.contains(cStart) && line.contains(dContent)) {
+                        bContent = line.substring(line.indexOf(bStart), line.length());
+                    }else if (line.contains(bStart) && line.contains(cStart) && line.contains(dStart)) {
+                        bContent = line.substring(line.indexOf(bStart), line.indexOf(cStart));
                         cContent = line.substring(line.indexOf(cStart), line.indexOf(dStart));
-                        dContent = line.substring(line.indexOf(dStart), line.length() - 1);
-                    } else if (flag) {
+                        dContent = line.substring(line.indexOf(dStart), line.length());
+                        Question question = new Question();
+                        question.setType(tiGanContent);
+                        question.setQtype("单选");
+                        question.setKey("");
+                        question.setTiMuContent(tiMuContent);
+                        question.setaContent(aContent);
+                        question.setbContent(bContent);
+                        question.setcContent(cContent);
+                        question.setdContent(dContent);
+                        questions.add(question);
+                        aContent = "";
+                        bContent = "";
+                        cContent = "";
+                        dContent = "";
+                        tiMuContent = "";
+                    } else if (line.contains(cStart) && line.contains(dStart)) {
+                        cContent = line.substring(line.indexOf(cStart), line.indexOf(dStart));
+                        dContent = line.substring(line.indexOf(dStart), line.length());
+                        Question question = new Question();
+                        question.setType(tiGanContent);
+                        question.setQtype("单选");
+                        question.setKey("");
+                        question.setTiMuContent(tiMuContent);
+                        question.setaContent(aContent);
+                        question.setbContent(bContent);
+                        question.setcContent(cContent);
+                        question.setdContent(dContent);
+                        questions.add(question);
+                        aContent = "";
+                        bContent = "";
+                        cContent = "";
+                        dContent = "";
+                        tiMuContent = "";
+                    }else if (flag) {
                         aContent = line;
                     } else if (line.contains(bStart)) {
                         bContent = line;
@@ -67,6 +106,11 @@ public class FileHepler {
                         question.setcContent(cContent);
                         question.setdContent(dContent);
                         questions.add(question);
+                        aContent = "";
+                        bContent = "";
+                        cContent = "";
+                        dContent = "";
+                        tiMuContent = "";
                     }
                 }
             }
@@ -75,6 +119,15 @@ public class FileHepler {
             System.out.println(e);
         }
         return null;
+    }
+
+    private static Boolean check(List<String> items, String checkItem){
+        for (String item: items) {
+            if(item.equals(checkItem)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
