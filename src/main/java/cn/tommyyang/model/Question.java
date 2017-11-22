@@ -1,5 +1,7 @@
 package cn.tommyyang.model;
 
+import cn.tommyyang.Constant.Constant;
+
 /**
  * Created by TommyYang on 2017/11/19.
  */
@@ -13,6 +15,9 @@ public class Question {
     private String bContent;
     private String cContent;
     private String dContent;
+    private String rightAnswer;
+    private String parseContent;
+    private Integer difficulty;
 
     public String getType() {
         return type;
@@ -43,6 +48,7 @@ public class Question {
     }
 
     public void setTiMuContent(String tiMuContent) {
+        tiMuContent = "(模拟一)"+ tiMuContent;
         this.tiMuContent = tiMuContent;
     }
 
@@ -51,6 +57,7 @@ public class Question {
     }
 
     public void setaContent(String aContent) {
+        aContent = aContent.replace("A.","");
         this.aContent = aContent;
     }
 
@@ -59,6 +66,7 @@ public class Question {
     }
 
     public void setbContent(String bContent) {
+        bContent = bContent.replace("B.", "");
         this.bContent = bContent;
     }
 
@@ -67,6 +75,7 @@ public class Question {
     }
 
     public void setcContent(String cContent) {
+        cContent = cContent.replace("C.","");
         this.cContent = cContent;
     }
 
@@ -75,6 +84,52 @@ public class Question {
     }
 
     public void setdContent(String dContent) {
+        dContent = dContent.replace("D.","");
         this.dContent = dContent;
+    }
+
+    public String getRightAnswer() {
+        return rightAnswer;
+    }
+
+    public void setRightAnswer(String rightAnswer) {
+        if(rightAnswer.contains(Constant.DanAnStart1)){
+            rightAnswer = rightAnswer.replace(Constant.DanAnStart1, "");
+        }else if(rightAnswer.contains(Constant.DanAnStart2)){
+            rightAnswer = rightAnswer.replace(Constant.DanAnStart2,"");
+        }else if(rightAnswer.contains(Constant.DanAnStart3)){
+            rightAnswer = rightAnswer.replace(Constant.DanAnStart3,"");
+        }
+        if(rightAnswer.trim().equals("A")){
+            rightAnswer = 1 + "";
+        } else if(rightAnswer.trim().equals("B")){
+            rightAnswer = 2 + "";
+        }else if(rightAnswer.trim().equals("C")){
+            rightAnswer = 3 + "";
+        }else if(rightAnswer.trim().equals("D")){
+            rightAnswer = 4 + "";
+        }
+        this.rightAnswer = rightAnswer;
+    }
+
+    public String getParseContent() {
+        return parseContent;
+    }
+
+    public void setParseContent(String parseContent) {
+        if(parseContent.contains(Constant.JieXiStart1)){
+            parseContent = parseContent.replace(Constant.JieXiStart1, "");
+        }else if(parseContent.contains(Constant.JieXiStart2)){
+            parseContent = parseContent.replace(Constant.JieXiStart2, "");
+        }
+        this.parseContent = parseContent;
+    }
+
+    public Integer getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Integer difficulty) {
+        this.difficulty = difficulty;
     }
 }
