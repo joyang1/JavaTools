@@ -54,6 +54,8 @@ public class Utils {
             line = line.replace(cerror, "C.");
         }else if(line.contains(derror)){
             line = line.replace(derror, "D.");
+        }else if(line.contains("?")){
+            line = line.replace("?","");
         }
         return line;
     }

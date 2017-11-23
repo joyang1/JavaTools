@@ -48,7 +48,7 @@ public class Question {
     }
 
     public void setTiMuContent(String tiMuContent) {
-        tiMuContent = "(模拟一)"+ tiMuContent;
+        tiMuContent = "(卷二)"+ tiMuContent;
         this.tiMuContent = tiMuContent;
     }
 
@@ -121,6 +121,8 @@ public class Question {
             parseContent = parseContent.replace(Constant.JieXiStart1, "");
         }else if(parseContent.contains(Constant.JieXiStart2)){
             parseContent = parseContent.replace(Constant.JieXiStart2, "");
+        }else if(parseContent.contains(Constant.JieXiStart3)){
+            parseContent = parseContent.substring(2, parseContent.length());
         }
         this.parseContent = parseContent;
     }
