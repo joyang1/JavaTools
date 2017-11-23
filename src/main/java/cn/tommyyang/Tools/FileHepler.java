@@ -47,44 +47,53 @@ public class FileHepler {
                         continue;
                     }
 
+                    boolean timuStartFlag = false;
+                    if(line.length() > 3){
+                        timuStartFlag = qStart.contains(line.substring(0, 1)) || qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 3));
+                    }
+                    if(timuStartFlag){
+                        isTimuNow = true;
+                    }
+
+                    Boolean isJieXiStart = line.contains(Constant.JieXiStart1) || line.contains(Constant.JieXiStart2) || line.startsWith(Constant.JieXiStart3);
+                    if(isJieXiStart){
+                        isJiexiNow = true;
+                    }
+
                     Boolean aflag = line.startsWith(aStart);
                     if(aflag){
                         isTimuNow = false;
                     }
 
-                    if (line.startsWith(aStart) && line.startsWith(bStart)) {
+                    if (line.startsWith(aStart) && line.startsWith(bStart) && !isJiexiNow && !isTimuNow) {
                         aContent = line.substring(line.indexOf(aStart), line.indexOf(bStart));
                         bContent = line.substring(line.indexOf(bStart), line.length());
                         continue;
-                    } else if (line.startsWith(bStart) && line.startsWith(cStart) && line.startsWith(dStart)) {
+                    } else if (line.startsWith(bStart) && line.startsWith(cStart) && line.startsWith(dStart)  && !isJiexiNow && !isTimuNow) {
                         bContent = line.substring(line.indexOf(bStart), line.indexOf(cStart));
                         cContent = line.substring(line.indexOf(cStart), line.indexOf(dStart));
                         dContent = line.substring(line.indexOf(dStart), line.length());
                         continue;
-                    } else if (line.startsWith(cStart) && line.startsWith(dStart)) {
+                    } else if (line.startsWith(cStart) && line.startsWith(dStart)  && !isJiexiNow && !isTimuNow) {
                         cContent = line.substring(line.indexOf(cStart), line.indexOf(dStart));
                         dContent = line.substring(line.indexOf(dStart), line.length());
                         continue;
-                    } else if (aflag) {
+                    } else if (aflag  && !isJiexiNow && !isTimuNow) {
                         aContent = line;
                         continue;
-                    } else if (line.startsWith(bStart)) {
+                    } else if (line.startsWith(bStart)  && !isJiexiNow && !isTimuNow) {
                         bContent = line;
                         continue;
-                    } else if (line.startsWith(cStart)) {
+                    } else if (line.startsWith(cStart)  && !isJiexiNow && !isTimuNow) {
                         cContent = line;
                         continue;
-                    } else if (line.startsWith(dStart)) {
+                    } else if (line.startsWith(dStart)  && !isJiexiNow && !isTimuNow) {
                         dContent = line;
                         continue;
                     }
 
-                    boolean timuStartFlag = qStart.contains(line.substring(0, 1)) || qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 3));
-                    if(timuStartFlag){
-                        isTimuNow = true;
-                    }
-                    if (line.contains(Constant.DanAnStart1) || line.contains(Constant.DanAnStart2) || line.contains(Constant.DanAnStart3)) {
-                        dananContent += line;
+                    if ((line.contains(Constant.DanAnStart1) || line.contains(Constant.DanAnStart2) || line.contains(Constant.DanAnStart3)) && !isJiexiNow) {
+                        dananContent = line;
                         continue;
                     }
 
@@ -109,10 +118,7 @@ public class FileHepler {
                         jiexiContent = "";
                         isJiexiNow = false;
                     }
-                    Boolean isJieXiStart = line.contains(Constant.JieXiStart1) || line.contains(Constant.JieXiStart2);
-                    if(isJieXiStart){
-                        isJiexiNow = true;
-                    }
+
                     if (isJieXiStart || isJiexiNow) {
                         jiexiContent += line;
                         continue;
