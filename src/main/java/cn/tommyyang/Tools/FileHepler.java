@@ -47,7 +47,7 @@ public class FileHepler {
                         continue;
                     }
 
-                    boolean timuStartFlag = false;
+                    Boolean timuStartFlag = false;
                     if(line.length() > 3){
                         timuStartFlag = qStart.contains(line.substring(0, 1)) || qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 3));
                     }
