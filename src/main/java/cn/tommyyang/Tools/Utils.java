@@ -13,6 +13,12 @@ public class Utils {
     public static Set getStartFlags() {
         Set<String> set = new HashSet<String>();
         for (int i = 1; i <= 125; i++) {
+            set.add(i+".");
+        }
+        for (int i = 1; i <= 125; i++) {
+            set.add(i+"、");
+        }
+        for (int i = 1; i <= 125; i++) {
             set.add(i+"");
         }
         return set;
