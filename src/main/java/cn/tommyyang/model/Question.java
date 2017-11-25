@@ -95,10 +95,12 @@ public class Question {
     public void setRightAnswer(String rightAnswer) {
         if(rightAnswer.contains(Constant.DanAnStart1)){
             rightAnswer = rightAnswer.replace(Constant.DanAnStart1, "");
-        }else if(rightAnswer.contains(Constant.DanAnStart2)){
+        }else if(rightAnswer.startsWith(Constant.DanAnStart2)){
             rightAnswer = rightAnswer.replace(Constant.DanAnStart2,"");
         }else if(rightAnswer.contains(Constant.DanAnStart3)){
             rightAnswer = rightAnswer.replace(Constant.DanAnStart3,"");
+        }else if(rightAnswer.startsWith(Constant.DanAnStart4)){
+            rightAnswer = rightAnswer.replace(Constant.DanAnStart4,"");
         }
         if(rightAnswer.trim().equals("A")){
             rightAnswer = 1 + "";

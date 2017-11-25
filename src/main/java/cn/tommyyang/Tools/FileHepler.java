@@ -92,7 +92,7 @@ public class FileHepler {
                         continue;
                     }
 
-                    if ((line.contains(Constant.DanAnStart1) || line.contains(Constant.DanAnStart2) || line.contains(Constant.DanAnStart3)) && !isJiexiNow) {
+                    if ((line.contains(Constant.DanAnStart1) || line.startsWith(Constant.DanAnStart2) || line.contains(Constant.DanAnStart3) || line.startsWith(Constant.DanAnStart4)) && !isJiexiNow) {
                         dananContent = line;
                         continue;
                     }
