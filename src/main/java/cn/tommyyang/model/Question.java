@@ -7,6 +7,8 @@ import cn.tommyyang.Constant.Constant;
  */
 public class Question {
 
+    public static String timustart = "";
+
     private String type;
     private String qtype;
     private String key;
@@ -48,7 +50,7 @@ public class Question {
     }
 
     public void setTiMuContent(String tiMuContent) {
-        tiMuContent = "(卷三)"+ tiMuContent;
+        tiMuContent = "("+ timustart + ")"+ tiMuContent;
         this.tiMuContent = tiMuContent;
     }
 
