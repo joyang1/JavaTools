@@ -6,8 +6,10 @@ import cn.tommyyang.Tools.Utils;
 import cn.tommyyang.model.Question;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by TommyYang on 2017/11/19.
@@ -15,6 +17,11 @@ import java.util.List;
 public class RunTest {
 
     public static void main(String[] args){
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("设置试卷号(设置完点击Enter键即可):");
+        Question.timustart = scanner.nextLine();
+
         String path = "E:\\runtest";
         File directory = new File(path);
         if(directory.isDirectory()){
@@ -32,7 +39,16 @@ public class RunTest {
 
         }
 
-
+        System.out.println("转化完成!文件生成在E:/runtest目录下！");
+        System.out.println("按Enter(回车)键退出！");
+        while(true){
+            try {
+                if(System.in.read() == '\n')
+                    System.exit(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private List<String[]> getDatas(List<Question> questions) {
