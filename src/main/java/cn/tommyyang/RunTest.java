@@ -16,6 +16,7 @@ import java.util.Scanner;
  */
 public class RunTest {
 
+
     public static void main(String[] args){
 
         Scanner scanner = new Scanner(System.in);
