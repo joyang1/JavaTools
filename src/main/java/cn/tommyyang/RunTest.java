@@ -3,6 +3,7 @@ package cn.tommyyang;
 import cn.tommyyang.Tools.ExcelTool;
 import cn.tommyyang.Tools.FileHepler;
 import cn.tommyyang.Tools.Utils;
+import cn.tommyyang.Tools.WordTool;
 import cn.tommyyang.model.Question;
 
 import java.io.File;
@@ -18,7 +19,11 @@ public class RunTest {
 
 
     public static void main(String[] args){
+        runtest();
+        //runTxtJiexi();
+    }
 
+    private static  void runtest(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("设置试卷号(设置完点击Enter键即可):");
         Question.timustart = scanner.nextLine();
@@ -37,7 +42,6 @@ public class RunTest {
                 List<String[]> datas = new RunTest().getDatas(questions);
                 ExcelTool.writeExcel(xlsPath, "试卷内容",0,fileHeader, datas);
             }
-
         }
 
         System.out.println("转化完成!文件生成在E:/runtest目录下！");
@@ -51,6 +55,29 @@ public class RunTest {
             }
         }
     }
+
+    private static void runTxtJiexi(){
+        String path = "E:\\runtest\\解析.txt";
+        String content = FileHepler.generateJiexi(path);
+        FileHepler.writeContentToTxt(content, "E:\\runtest\\jiexiresult.txt");
+    }
+
+    private static void runTxtAddJiexi(){
+
+    }
+
+    private static void runword(){
+        String path = "E:\\runtest\\14国考.doc";
+        try {
+            String[] contents = WordTool.reaDoc(path);
+            for (String content : contents) {
+                FileHepler.writeContentToTxt(content, "E:\\runtest\\14国考.txt");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private List<String[]> getDatas(List<Question> questions) {
         List<String[]> datas = new ArrayList<String[]>();
