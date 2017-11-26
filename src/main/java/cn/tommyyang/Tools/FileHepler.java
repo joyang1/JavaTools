@@ -34,8 +34,9 @@ public class FileHepler {
         Boolean isTimuNow = false;
         Boolean isJiexiNow = false;
         List<Question> questions = new ArrayList<Question>();
+        FileInputStream inputStream = null;
         try {
-            FileInputStream inputStream = new FileInputStream(new File(filePath));
+            inputStream = new FileInputStream(new File(filePath));
             //InputStreamReader inReader = new InputStreamReader(inputStream, "UTF-8");
             UnicodeReader ur = new UnicodeReader(inputStream, "UTF-8");
             BufferedReader bufReader = new BufferedReader(ur);
@@ -48,46 +49,52 @@ public class FileHepler {
                     }
 
                     Boolean timuStartFlag = false;
-                    if(line.length() > 3){
+                    if (line.length() > 3) {
                         timuStartFlag = qStart.contains(line.substring(0, 1)) || qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 3));
                     }
-                    if(timuStartFlag){
+                    if (timuStartFlag) {
                         isTimuNow = true;
                     }
 
                     Boolean isJieXiStart = line.contains(Constant.JieXiStart1) || line.contains(Constant.JieXiStart2) || line.startsWith(Constant.JieXiStart3);
-                    if(isJieXiStart){
+                    if (isJieXiStart) {
                         isJiexiNow = true;
                     }
 
                     Boolean aflag = line.startsWith(aStart);
-                    if(aflag){
+                    if (aflag) {
                         isTimuNow = false;
                     }
 
-                    if (line.startsWith(aStart) && line.startsWith(bStart) && !isJiexiNow && !isTimuNow) {
+                    if (line.startsWith(aStart) && line.contains(bStart) && line.contains(cStart) && line.contains(dStart) && !isJiexiNow && !isTimuNow) {
                         aContent = line.substring(line.indexOf(aStart), line.indexOf(bStart));
-                        bContent = line.substring(line.indexOf(bStart), line.length());
-                        continue;
-                    } else if (line.startsWith(bStart) && line.startsWith(cStart) && line.startsWith(dStart)  && !isJiexiNow && !isTimuNow) {
                         bContent = line.substring(line.indexOf(bStart), line.indexOf(cStart));
                         cContent = line.substring(line.indexOf(cStart), line.indexOf(dStart));
                         dContent = line.substring(line.indexOf(dStart), line.length());
                         continue;
-                    } else if (line.startsWith(cStart) && line.startsWith(dStart)  && !isJiexiNow && !isTimuNow) {
+                    } else if (line.startsWith(aStart) && line.contains(bStart) && !isJiexiNow && !isTimuNow) {
+                        aContent = line.substring(line.indexOf(aStart), line.indexOf(bStart));
+                        bContent = line.substring(line.indexOf(bStart), line.length());
+                        continue;
+                    } else if (line.startsWith(bStart) && line.contains(cStart) && line.contains(dStart) && !isJiexiNow && !isTimuNow) {
+                        bContent = line.substring(line.indexOf(bStart), line.indexOf(cStart));
                         cContent = line.substring(line.indexOf(cStart), line.indexOf(dStart));
                         dContent = line.substring(line.indexOf(dStart), line.length());
                         continue;
-                    } else if (aflag  && !isJiexiNow && !isTimuNow) {
+                    } else if (line.startsWith(cStart) && line.startsWith(dStart) && !isJiexiNow && !isTimuNow) {
+                        cContent = line.substring(line.indexOf(cStart), line.indexOf(dStart));
+                        dContent = line.substring(line.indexOf(dStart), line.length());
+                        continue;
+                    } else if (aflag && !isJiexiNow && !isTimuNow) {
                         aContent = line;
                         continue;
-                    } else if (line.startsWith(bStart)  && !isJiexiNow && !isTimuNow) {
+                    } else if (line.startsWith(bStart) && !isJiexiNow && !isTimuNow) {
                         bContent = line;
                         continue;
-                    } else if (line.startsWith(cStart)  && !isJiexiNow && !isTimuNow) {
+                    } else if (line.startsWith(cStart) && !isJiexiNow && !isTimuNow) {
                         cContent = line;
                         continue;
-                    } else if (line.startsWith(dStart)  && !isJiexiNow && !isTimuNow) {
+                    } else if (line.startsWith(dStart) && !isJiexiNow && !isTimuNow) {
                         dContent = line;
                         continue;
                     }
@@ -97,7 +104,7 @@ public class FileHepler {
                         continue;
                     }
 
-                    if(timuStartFlag && !jiexiContent.equals("")){
+                    if (timuStartFlag && !jiexiContent.equals("")) {
                         Question question = new Question();
                         question.setKey("");
                         question.setTiMuContent(tiMuContent);
@@ -127,7 +134,7 @@ public class FileHepler {
                         tiMuContent += line;
                         continue;
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     aContent = "";
                     bContent = "";
                     cContent = "";
@@ -139,7 +146,7 @@ public class FileHepler {
                     isJiexiNow = false;
                 }
             }
-            if(!jiexiContent.equals("")){
+            if (!jiexiContent.equals("")) {
                 Question question = new Question();
                 question.setKey("");
                 question.setTiMuContent(tiMuContent);
@@ -154,21 +161,114 @@ public class FileHepler {
             }
             return questions;
         } catch (Exception e) {
-            if(questions.size()>0){
+            if (questions.size() > 0) {
                 return questions;
             }
             System.out.println(e);
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return null;
     }
 
-    private static Boolean check(List<String> items, String checkItem) {
-        for (String item : items) {
-            if (item.equals(checkItem)) {
-                return true;
+    public static void writeContentToTxt(String content, String path) {
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(path, true);
+            byte[] contentBytes = content.getBytes();
+            fileOutputStream.write(contentBytes);
+            fileOutputStream.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fileOutputStream != null) {
+                try {
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-        return false;
+    }
+
+    public static String generateJiexi(String filePath) {
+        //List<String> jiexis = Utils.getJiexiStartFlag();
+        Set<String> qStart = Utils.getStartFlags();
+        FileInputStream inputStream = null;
+        StringBuilder sBuilder = new StringBuilder();
+        try {
+            inputStream = new FileInputStream(filePath);
+            UnicodeReader unicodeReader = new UnicodeReader(inputStream, "UTF-8");
+            BufferedReader bfReader = new BufferedReader(unicodeReader);
+            while (bfReader.ready()) {
+                String line = bfReader.readLine();
+                String item = Constant.JieXi;
+                Boolean tiHaoStartFlag = false;
+                if (line.length() > 3) {
+                    tiHaoStartFlag = qStart.contains(line.substring(0, 1)) || qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 3));
+                }
+                if (line.contains(item)) {
+                    line = line.replace(item, Constant.DanAnStart1);
+                }
+                if (tiHaoStartFlag) {
+                    int index = line.indexOf(Constant.End);
+                    sBuilder.append(line.substring(0, index)).append(Constant.lineFlag).append("解析:").append(line.substring(index + 1, line.length())).append(Constant.lineFlag);
+                } else {
+                    sBuilder.append(line).append(Constant.lineFlag);
+                }
+            }
+            return sBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<String> getJiexi(String filePath) {
+        Set<String> qStart = Utils.getStartFlags();
+        FileInputStream inputStream = null;
+        StringBuilder sBuilder = new StringBuilder();
+        try {
+            inputStream = new FileInputStream(filePath);
+            UnicodeReader unicodeReader = new UnicodeReader(inputStream, "UTF-8");
+            BufferedReader bfReader = new BufferedReader(unicodeReader);
+            while (bfReader.ready()) {
+                String line = bfReader.readLine();
+                String item = Constant.JieXi;
+                Boolean tiHaoStartFlag = false;
+                if (line.length() > 3) {
+                    tiHaoStartFlag = qStart.contains(line.substring(0, 1)) || qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 3));
+                }
+                if (line.contains(item)) {
+                    line = line.replace(item, Constant.DanAnStart1);
+                }
+                if (tiHaoStartFlag) {
+                    int index = line.indexOf(Constant.End);
+                    sBuilder.append(line.substring(0, index)).append(Constant.lineFlag).append("解析:").append(line.substring(index + 1, line.length())).append(Constant.lineFlag);
+                } else {
+                    sBuilder.append(line).append(Constant.lineFlag);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if(inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 
 }

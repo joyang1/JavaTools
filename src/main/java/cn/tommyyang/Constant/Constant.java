@@ -13,4 +13,7 @@ public class Constant {
     public final static String JieXiStart2 = "解析:";
     public final static String JieXiStart3 = "解析";
 
+    public final static String JieXi = "【解析】";
+    public final static String End = "。";
+    public final static String lineFlag = System.getProperty("line.separator");
 }

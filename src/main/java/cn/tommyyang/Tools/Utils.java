@@ -1,5 +1,7 @@
 package cn.tommyyang.Tools;
 
+import cn.tommyyang.Constant.Constant;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +24,14 @@ public class Utils {
             set.add(i+"");
         }
         return set;
+    }
+
+    public static List getJiexiStartFlag(){
+        List<String> list = new ArrayList<String>();
+        for (int i=1; i <= 135; i++){
+            list.add(i + Constant.JieXi);
+        }
+        return list;
     }
 
     public static List getOptionFlags() {
