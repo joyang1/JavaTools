@@ -40,7 +40,15 @@ public class Utils {
         list.add("B.");
         list.add("C.");
         list.add("D.");
-        list.add("D．");
+        return list;
+    }
+
+    public static List getJiexiOptionFlags() {
+        List<String> list = new ArrayList<String>();
+        list.add("【A】");
+        list.add("【B】");
+        list.add("【C】");
+        list.add("【D】");
         return list;
     }
 
@@ -62,6 +70,11 @@ public class Utils {
         String berror = "B．";
         String cerror = "C．";
         String derror = "D．";
+        String d_unknowerror = "D.";
+        String a_error = "A " + Constant.JieXi;
+        String b_error = "B " + Constant.JieXi;
+        String c_error = "C " + Constant.JieXi;
+        String d_error = "D " + Constant.JieXi;
         if(line.contains(aerror)){
             line = line.replace(aerror, "A.");
         }
@@ -74,8 +87,23 @@ public class Utils {
         if(line.contains(derror)){
             line = line.replace(derror, "D.");
         }
+        if(line.contains(d_unknowerror)){
+            line = line.replace(d_unknowerror, "D.");
+        }
         if(line.contains("?")){
             line = line.replace("?","");
+        }
+        if(line.contains(a_error)){
+            line = line.replace(a_error, Constant.AJieXi);
+        }
+        if(line.contains(b_error)){
+            line = line.replace(b_error, Constant.BJieXi);
+        }
+        if(line.contains(c_error)){
+            line = line.replace(c_error, Constant.CJieXi);
+        }
+        if(line.contains(d_error)){
+            line = line.replace(d_error, Constant.DJieXi);
         }
         return line;
     }

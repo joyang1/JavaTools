@@ -19,9 +19,10 @@ public class RunTest {
 
 
     public static void main(String[] args){
-        //runtest();
+        runtest();
+        //runword();
         //runTxtJiexi();
-        runTxtAddJiexi();
+        //runTxtAddJiexi();
     }
 
     private static  void runtest(){
@@ -64,17 +65,26 @@ public class RunTest {
     }
 
     private static void runTxtAddJiexi(){
-        String txtJiexiPath = "E:\\runtest\\jiexiresult.txt";
-        String path = "E:\\runtest\\14国考-言语.txt";
-        FileHepler.combineTxt(path, txtJiexiPath);
+        String txtJiexiPath = "E:\\runtest2\\jiexiresult.txt";
+        String path = "E:\\runtest1";
+        File directory = new File(path);
+        if(directory.isDirectory()){
+            File[] files = directory.listFiles();
+            for (File file:files) {
+                String name = file.getName();
+                String txtPath = path + "\\" + name;
+                FileHepler.combineTxt(txtPath, txtJiexiPath);
+            }
+        }
+
     }
 
     private static void runword(){
-        String path = "E:\\runtest\\14国考.doc";
+        String path = "E:\\runtest\\2017年国考行测第二套试卷答案版定稿.doc";
         try {
             String[] contents = WordTool.reaDoc(path);
             for (String content : contents) {
-                FileHepler.writeContentToTxt(content, "E:\\runtest\\14国考.txt");
+                FileHepler.writeContentToTxt(content, "E:\\runtest\\2017年国考行测第二套试卷答案版定稿.txt");
             }
         } catch (IOException e) {
             e.printStackTrace();
