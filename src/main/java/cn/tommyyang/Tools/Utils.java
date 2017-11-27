@@ -64,13 +64,17 @@ public class Utils {
         String derror = "D．";
         if(line.contains(aerror)){
             line = line.replace(aerror, "A.");
-        }else if(line.contains(berror)){
+        }
+        if(line.contains(berror)){
             line = line.replace(berror, "B.");
-        }else if(line.contains(cerror)){
+        }
+        if(line.contains(cerror)){
             line = line.replace(cerror, "C.");
-        }else if(line.contains(derror)){
+        }
+        if(line.contains(derror)){
             line = line.replace(derror, "D.");
-        }else if(line.contains("?")){
+        }
+        if(line.contains("?")){
             line = line.replace("?","");
         }
         return line;
