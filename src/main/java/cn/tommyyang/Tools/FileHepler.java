@@ -199,6 +199,11 @@ public class FileHepler {
     public static String generateJiexi(String filePath) {
         //List<String> jiexis = Utils.getJiexiStartFlag();
         Set<String> qStart = Utils.getStartFlags();
+        List<String> jiexiOptionFlags = Utils.getJiexiOptionFlags();
+        String aFlag = jiexiOptionFlags.get(0);
+        String bFlag = jiexiOptionFlags.get(1);
+        String cFlag = jiexiOptionFlags.get(2);
+        String dFlag = jiexiOptionFlags.get(3);
         FileInputStream inputStream = null;
         StringBuilder sBuilder = new StringBuilder();
         try {
@@ -206,19 +211,50 @@ public class FileHepler {
             UnicodeReader unicodeReader = new UnicodeReader(inputStream, "UTF-8");
             BufferedReader bfReader = new BufferedReader(unicodeReader);
             while (bfReader.ready()) {
-                String line = bfReader.readLine();
+                String line = Utils.formatLine(bfReader.readLine().trim());
                 String item = Constant.JieXi;
                 Boolean tiHaoStartFlag = false;
                 if (line.length() > 3) {
                     tiHaoStartFlag = qStart.contains(line.substring(0, 1)) || qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 3));
                 }
+                int index = 0;
+                Boolean abcdflag = line.contains(aFlag) || line.contains(bFlag) || line.contains(cFlag) || line.contains(dFlag);
                 if (line.contains(item)) {
-                    line = line.replace(item, Constant.DanAnStart1);
+                    if(line.contains(item + Constant.COMMA)){
+                        line = line.replace(item, Constant.DanAnStart1);
+                        index = line.indexOf(Constant.COMMA);
+                    }else if(line.contains(Constant.AJieXi)){
+                        line = line.replace(Constant.AJieXi, Constant.DanAnStart1 + "A" + Constant.COMMA);
+                        index =line.indexOf(Constant.COMMA);
+                    }else if(line.contains(Constant.BJieXi)){
+                        line = line.replace(Constant.BJieXi, Constant.DanAnStart1 + "B" + Constant.COMMA);
+                        index =line.indexOf(Constant.COMMA);
+                    }else if(line.contains(Constant.CJieXi)){
+                        line = line.replace(Constant.CJieXi, Constant.DanAnStart1 + "C" + Constant.COMMA);
+                        index =line.indexOf(Constant.COMMA);
+                    }else if(line.contains(Constant.DJieXi)){
+                        line = line.replace(Constant.DJieXi, Constant.DanAnStart1 + "D" + Constant.COMMA);
+                        index =line.indexOf(Constant.COMMA);
+                    }
+
+                }else if(line.contains(aFlag)){
+                    line = line.replace(aFlag, Constant.DanAnStart1 + "A");
+                    index = line.indexOf(Constant.JieXiStart1);
+                }else if(line.contains(bFlag)){
+                    line = line.replace(bFlag, Constant.DanAnStart1 + "B");
+                    index = line.indexOf(Constant.JieXiStart1);
+                }else if(line.contains(cFlag)){
+                    line = line.replace(cFlag, Constant.DanAnStart1 + "C");
+                    index = line.indexOf(Constant.JieXiStart1);
+                }else if(line.contains(dFlag)){
+                    line = line.replace(dFlag, Constant.DanAnStart1 + "D");
+                    index = line.indexOf(Constant.JieXiStart1);
                 }
-                if (tiHaoStartFlag) {
-                    int index = line.indexOf(Constant.COMMA);
+                if (tiHaoStartFlag && abcdflag) {
+                    sBuilder.append(line.substring(0, index)).append(Constant.LineFlag).append(line.substring(index, line.length())).append(Constant.LineFlag);
+                } else if(tiHaoStartFlag){
                     sBuilder.append(line.substring(0, index)).append(Constant.LineFlag).append("解析:").append(line.substring(index + 1, line.length())).append(Constant.LineFlag);
-                } else {
+                }else {
                     sBuilder.append(line).append(Constant.LineFlag);
                 }
             }
@@ -375,7 +411,7 @@ public class FileHepler {
                 File file = new File(txtContentPath);
                 if (file.exists()) {
                     String newTxtName = file.getName().replace(".txt","") + "_new.txt";
-                    writeContentToTxt(sb.toString(), newTxtName);
+                    writeContentToTxt(sb.toString(), "E:\\runtest1\\" + newTxtName);
                 }
             }
         } catch (Exception e) {
@@ -383,7 +419,7 @@ public class FileHepler {
                 File file = new File(txtContentPath);
                 if (file.exists()) {
                     String newTxtName = file.getName().replace(".txt","") + "_new.txt";
-                    writeContentToTxt(sb.toString(), newTxtName);
+                    writeContentToTxt(sb.toString(),  "E:\\runtest1\\" +  newTxtName);
                 }
             }
         } finally {

@@ -14,6 +14,10 @@ public class Constant {
     public final static String JieXiStart3 = "解析";
 
     public final static String JieXi = "【解析】";
+    public final static String AJieXi = "A【解析】";
+    public final static String BJieXi = "B【解析】";
+    public final static String CJieXi = "C【解析】";
+    public final static String DJieXi = "D【解析】";
     public final static String COMMA = "。";
     public final static String PAUSE = "、";
     public final static String POINT = ".";
