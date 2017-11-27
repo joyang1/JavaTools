@@ -19,8 +19,9 @@ public class RunTest {
 
 
     public static void main(String[] args){
-        runtest();
+        //runtest();
         //runTxtJiexi();
+        runTxtAddJiexi();
     }
 
     private static  void runtest(){
@@ -63,7 +64,9 @@ public class RunTest {
     }
 
     private static void runTxtAddJiexi(){
-
+        String txtJiexiPath = "E:\\runtest\\jiexiresult.txt";
+        String path = "E:\\runtest\\14国考-言语.txt";
+        FileHepler.combineTxt(path, txtJiexiPath);
     }
 
     private static void runword(){

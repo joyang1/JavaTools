@@ -4,12 +4,9 @@ import cn.tommyyang.Constant.Constant;
 import cn.tommyyang.model.Question;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import static java.lang.System.in;
 
 /**
  * Created by TommyYang on 2017/11/19.
@@ -50,7 +47,7 @@ public class FileHepler {
 
                     Boolean timuStartFlag = false;
                     if (line.length() > 3) {
-                        timuStartFlag = qStart.contains(line.substring(0, 1)) || qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 3));
+                        timuStartFlag = qStart.contains(line.substring(0, 3)) || qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 1));
                     }
                     if (timuStartFlag) {
                         isTimuNow = true;
@@ -219,10 +216,10 @@ public class FileHepler {
                     line = line.replace(item, Constant.DanAnStart1);
                 }
                 if (tiHaoStartFlag) {
-                    int index = line.indexOf(Constant.End);
-                    sBuilder.append(line.substring(0, index)).append(Constant.lineFlag).append("解析:").append(line.substring(index + 1, line.length())).append(Constant.lineFlag);
+                    int index = line.indexOf(Constant.COMMA);
+                    sBuilder.append(line.substring(0, index)).append(Constant.LineFlag).append("解析:").append(line.substring(index + 1, line.length())).append(Constant.LineFlag);
                 } else {
-                    sBuilder.append(line).append(Constant.lineFlag);
+                    sBuilder.append(line).append(Constant.LineFlag);
                 }
             }
             return sBuilder.toString();
@@ -251,16 +248,16 @@ public class FileHepler {
                     line = line.replace(item, Constant.DanAnStart1);
                 }
                 if (tiHaoStartFlag) {
-                    int index = line.indexOf(Constant.End);
-                    sBuilder.append(line.substring(0, index)).append(Constant.lineFlag).append("解析:").append(line.substring(index + 1, line.length())).append(Constant.lineFlag);
+                    int index = line.indexOf(Constant.COMMA);
+                    sBuilder.append(line.substring(0, index)).append(Constant.LineFlag).append("解析:").append(line.substring(index + 1, line.length())).append(Constant.LineFlag);
                 } else {
-                    sBuilder.append(line).append(Constant.lineFlag);
+                    sBuilder.append(line).append(Constant.LineFlag);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            if(inputStream != null){
+        } finally {
+            if (inputStream != null) {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
@@ -269,6 +266,138 @@ public class FileHepler {
             }
         }
         return null;
+    }
+
+    public static void combineTxt(String txtContentPath, String txtJiexiPath) {
+        FileInputStream contentInputStream = null;
+        FileInputStream jiexiInputStream = null;
+        List<String> optionStart = Utils.getOptionFlags();
+        Set<String> qStart = Utils.getStartFlags();
+        String aStart = optionStart.get(0);
+        String bStart = optionStart.get(1);
+        String cStart = optionStart.get(2);
+        String dStart = optionStart.get(3);
+        StringBuilder sb = new StringBuilder();
+        StringBuilder sbJiexi = new StringBuilder();
+        try {
+            contentInputStream = new FileInputStream(txtContentPath);
+            jiexiInputStream = new FileInputStream(txtJiexiPath);
+            UnicodeReader contentReader = new UnicodeReader(contentInputStream, "UTF-8");
+            BufferedReader contentBfReader = new BufferedReader(contentReader);
+            Integer tiHao = 0;
+            while (contentBfReader.ready()) {
+                String conLine = contentBfReader.readLine();
+                String contentLine = Utils.formatLine(conLine);
+                Boolean timuStartFlag = false;
+                if (contentLine.length() > 3) {
+                    timuStartFlag = qStart.contains(contentLine.substring(0, 3)) || qStart.contains(contentLine.substring(0, 2)) || qStart.contains(contentLine.substring(0, 1));
+                }
+                if (timuStartFlag) {
+                    if (qStart.contains(contentLine.substring(0, 3))) {
+                        String tiHaoStr = contentLine.substring(0, 3);
+                        if (tiHaoStr.contains(Constant.PAUSE) || tiHaoStr.contains(Constant.POINT_ZH) || tiHaoStr.contains(Constant.POINT)) {
+                            tiHao = Integer.parseInt(tiHaoStr.substring(0, 2));
+                        } else {
+                            tiHao = Integer.parseInt(tiHaoStr);
+                        }
+                    } else if (qStart.contains(contentLine.substring(0, 2))) {
+                        String tiHaoStr = contentLine.substring(0, 2);
+                        if (tiHaoStr.contains(Constant.PAUSE) || tiHaoStr.contains(Constant.POINT_ZH) || tiHaoStr.contains(Constant.POINT)) {
+                            tiHao = Integer.parseInt(tiHaoStr.substring(0, 1));
+                        } else {
+                            tiHao = Integer.parseInt(tiHaoStr);
+                        }
+                    } else if (qStart.contains(contentLine.substring(0, 1))) {
+                        String tiHaoStr = contentLine.substring(0, 1);
+                        tiHao = Integer.parseInt(tiHaoStr);
+                    }
+                }
+                if ((contentLine.startsWith(aStart) && contentLine.contains(dStart)) ||
+                        (contentLine.startsWith(bStart) && contentLine.contains(dStart)) ||
+                        (contentLine.startsWith(cStart) && contentLine.contains(dStart)) ||
+                        contentLine.startsWith(dStart)) {
+                    Integer jiexiTihao = 0;
+                    jiexiInputStream = new FileInputStream(txtJiexiPath);
+                    UnicodeReader jiexiReader = new UnicodeReader(jiexiInputStream, "UTF-8");
+                    BufferedReader jiexiBfReader = new BufferedReader(jiexiReader);
+                    while (jiexiBfReader.ready()) {
+                        String jiexiLine = jiexiBfReader.readLine();
+                        Boolean jiexiStartFlag = false;
+                        if (jiexiLine.length() > 3) {
+                            jiexiStartFlag = qStart.contains(jiexiLine.substring(0, 3)) || qStart.contains(jiexiLine.substring(0, 2)) || qStart.contains(jiexiLine.substring(0, 1));
+                        }
+                        if (sbJiexi.length() > 0 && jiexiStartFlag) {
+                            break;
+                        }
+                        if (jiexiStartFlag && tiHao >= 100 && jiexiLine.substring(0, 3).equals(tiHao + "")) {
+                            jiexiTihao = Integer.parseInt(jiexiLine.substring(0, 3));
+                            String addLine = "";
+                            if(jiexiLine.startsWith(jiexiTihao + Constant.POINT)){
+                                addLine = jiexiLine.replace(jiexiTihao + Constant.POINT, "");
+                            }else if(jiexiLine.startsWith(jiexiTihao + Constant.POINT_ZH)){
+                                addLine = jiexiLine.replace(jiexiTihao + Constant.POINT_ZH, "");
+                            }
+                            sbJiexi.append(addLine).append(Constant.LineFlag);
+                        } else if (jiexiStartFlag && tiHao >= 10 && jiexiLine.substring(0, 2).equals(tiHao + "")) {
+                            jiexiTihao = Integer.parseInt(jiexiLine.substring(0, 2));
+                            String addLine = "";
+                            if(jiexiLine.startsWith(jiexiTihao + Constant.POINT)){
+                                addLine = jiexiLine.replace(jiexiTihao + Constant.POINT, "");
+                            }else if(jiexiLine.startsWith(jiexiTihao + Constant.POINT_ZH)){
+                                addLine = jiexiLine.replace(jiexiTihao + Constant.POINT_ZH, "");
+                            }
+                            sbJiexi.append(addLine).append(Constant.LineFlag);
+                        } else if (jiexiStartFlag && tiHao >= 1 && jiexiLine.substring(0, 2).equals(tiHao + "")) {
+                            jiexiTihao = Integer.parseInt(jiexiLine.substring(0, 1));
+                            String addLine = "";
+                            if(jiexiLine.startsWith(jiexiTihao + Constant.POINT)){
+                                addLine = jiexiLine.replace(jiexiTihao + Constant.POINT, "");
+                            }else if(jiexiLine.startsWith(jiexiTihao + Constant.POINT_ZH)){
+                                addLine = jiexiLine.replace(jiexiTihao + Constant.POINT_ZH, "");
+                            }
+                            sbJiexi.append(addLine).append(Constant.LineFlag);
+                        }
+                        if (!jiexiStartFlag && jiexiTihao == tiHao) {
+                            sbJiexi.append(jiexiLine).append(Constant.LineFlag);
+                        }
+                    }
+                    sb.append(conLine).append(Constant.LineFlag);
+                    if (sbJiexi.length() > 0) {
+                        sb.append(sbJiexi).append(Constant.LineFlag);
+                        sbJiexi = new StringBuilder();
+                        tiHao = 0;
+                    }
+                } else {
+                    sb.append(conLine).append(Constant.LineFlag);
+                }
+            }
+            if (sb.length() > 0) {
+                File file = new File(txtContentPath);
+                if (file.exists()) {
+                    String newTxtName = file.getName().replace(".txt","") + "_new.txt";
+                    writeContentToTxt(sb.toString(), newTxtName);
+                }
+            }
+        } catch (Exception e) {
+            if (sb.length() > 0) {
+                File file = new File(txtContentPath);
+                if (file.exists()) {
+                    String newTxtName = file.getName().replace(".txt","") + "_new.txt";
+                    writeContentToTxt(sb.toString(), newTxtName);
+                }
+            }
+        } finally {
+            try {
+                if (contentInputStream != null) {
+                    contentInputStream.close();
+                }
+                if(jiexiInputStream != null){
+                    jiexiInputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
