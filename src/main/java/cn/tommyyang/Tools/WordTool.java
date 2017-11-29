@@ -22,4 +22,13 @@ public class WordTool {
         String[] strs = extractor.getParagraphText();
         return strs;
     }
+
+    public static String reaDocx(String docPath) throws IOException {
+        FileInputStream in;
+        in = new FileInputStream(docPath);
+        XWPFDocument xdoc = new XWPFDocument(in);
+        XWPFWordExtractor extractor = new XWPFWordExtractor(xdoc);
+        String text = extractor.getText();
+        return text;
+    }
 }

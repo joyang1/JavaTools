@@ -115,4 +115,11 @@ public class Utils {
         return "";
     }
 
+    public static String getFileName(String fileName){
+        if(fileName.length() > 0){
+            return fileName.substring(0, fileName.indexOf(Constant.POINT)) + ".txt";
+        }
+        return "";
+    }
+
 }
