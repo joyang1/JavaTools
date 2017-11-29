@@ -53,7 +53,7 @@ public class FileHepler {
                         isTimuNow = true;
                     }
 
-                    Boolean isJieXiStart = line.contains(Constant.JieXiStart1) || line.contains(Constant.JieXiStart2) || line.startsWith(Constant.JieXiStart3);
+                    Boolean isJieXiStart = line.contains(Constant.JieXiStart1) || line.contains(Constant.JieXiStart2) || line.startsWith(Constant.JieXiStart3)  || line.startsWith(Constant.JieXiStart4);
                     if (isJieXiStart) {
                         isJiexiNow = true;
                     }
@@ -96,7 +96,7 @@ public class FileHepler {
                         continue;
                     }
 
-                    if ((line.contains(Constant.DanAnStart1) || line.startsWith(Constant.DanAnStart2) || line.contains(Constant.DanAnStart3) || line.startsWith(Constant.DanAnStart4)) && !isJiexiNow) {
+                    if ((line.contains(Constant.DanAnStart1) || line.startsWith(Constant.DanAnStart2) || line.contains(Constant.DanAnStart3) || line.startsWith(Constant.DanAnStart4)|| line.startsWith(Constant.DanAnStart5)) && !isJiexiNow) {
                         dananContent = line;
                         continue;
                     }

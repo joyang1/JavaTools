@@ -80,12 +80,19 @@ public class RunTest {
     }
 
     private static void runword(){
-        String path = "E:\\runtest\\2017年国考行测第二套试卷答案版定稿.doc";
+        String path = "E:\\runtest1";
         try {
-            String[] contents = WordTool.reaDoc(path);
-            for (String content : contents) {
-                FileHepler.writeContentToTxt(content, "E:\\runtest\\2017年国考行测第二套试卷答案版定稿.txt");
+            File directory = new File(path);
+            if(directory.exists()){
+                File[] files = directory.listFiles();
+                for (File file: files) {
+                    String wordPath = file.getAbsolutePath();
+                    String content = WordTool.reaDocx(wordPath);
+                    String desPath = path +"\\"+ Utils.getFileName(file.getName());
+                    FileHepler.writeContentToTxt(content, desPath);
+                }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

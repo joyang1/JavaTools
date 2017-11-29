@@ -50,7 +50,7 @@ public class Question {
     }
 
     public void setTiMuContent(String tiMuContent) {
-        tiMuContent = "("+ timustart + ")"+ tiMuContent;
+        tiMuContent = "(" + timustart + ")" + tiMuContent;
         this.tiMuContent = tiMuContent;
     }
 
@@ -59,7 +59,7 @@ public class Question {
     }
 
     public void setaContent(String aContent) {
-        aContent = aContent.replace("A.","");
+        aContent = aContent.replace("A.", "");
         this.aContent = aContent;
     }
 
@@ -77,7 +77,7 @@ public class Question {
     }
 
     public void setcContent(String cContent) {
-        cContent = cContent.replace("C.","");
+        cContent = cContent.replace("C.", "");
         this.cContent = cContent;
     }
 
@@ -86,7 +86,7 @@ public class Question {
     }
 
     public void setdContent(String dContent) {
-        dContent = dContent.replace("D.","");
+        dContent = dContent.replace("D.", "");
         this.dContent = dContent;
     }
 
@@ -95,22 +95,24 @@ public class Question {
     }
 
     public void setRightAnswer(String rightAnswer) {
-        if(rightAnswer.contains(Constant.DanAnStart1)){
+        if (rightAnswer.contains(Constant.DanAnStart1)) {
             rightAnswer = rightAnswer.replace(Constant.DanAnStart1, "");
-        }else if(rightAnswer.startsWith(Constant.DanAnStart2)){
-            rightAnswer = rightAnswer.replace(Constant.DanAnStart2,"");
-        }else if(rightAnswer.contains(Constant.DanAnStart3)){
-            rightAnswer = rightAnswer.replace(Constant.DanAnStart3,"");
-        }else if(rightAnswer.startsWith(Constant.DanAnStart4)){
-            rightAnswer = rightAnswer.replace(Constant.DanAnStart4,"");
+        } else if (rightAnswer.startsWith(Constant.DanAnStart2)) {
+            rightAnswer = rightAnswer.replace(Constant.DanAnStart2, "");
+        } else if (rightAnswer.contains(Constant.DanAnStart3)) {
+            rightAnswer = rightAnswer.replace(Constant.DanAnStart3, "");
+        } else if (rightAnswer.startsWith(Constant.DanAnStart4)) {
+            rightAnswer = rightAnswer.replace(Constant.DanAnStart4, "");
+        } else if (rightAnswer.startsWith(Constant.DanAnStart5)) {
+            rightAnswer = rightAnswer.replace(Constant.DanAnStart5, "");
         }
-        if(rightAnswer.trim().equals("A")){
+        if (rightAnswer.trim().equals("A")) {
             rightAnswer = 1 + "";
-        } else if(rightAnswer.trim().equals("B")){
+        } else if (rightAnswer.trim().equals("B")) {
             rightAnswer = 2 + "";
-        }else if(rightAnswer.trim().equals("C")){
+        } else if (rightAnswer.trim().equals("C")) {
             rightAnswer = 3 + "";
-        }else if(rightAnswer.trim().equals("D")){
+        } else if (rightAnswer.trim().equals("D")) {
             rightAnswer = 4 + "";
         }
         this.rightAnswer = rightAnswer;
@@ -121,11 +123,13 @@ public class Question {
     }
 
     public void setParseContent(String parseContent) {
-        if(parseContent.contains(Constant.JieXiStart1)){
+        if (parseContent.contains(Constant.JieXiStart1)) {
             parseContent = parseContent.replace(Constant.JieXiStart1, "");
-        }else if(parseContent.contains(Constant.JieXiStart2)){
+        } else if (parseContent.contains(Constant.JieXiStart2)) {
             parseContent = parseContent.replace(Constant.JieXiStart2, "");
-        }else if(parseContent.contains(Constant.JieXiStart3)){
+        } else if (parseContent.contains(Constant.JieXiStart4)) {
+            parseContent = parseContent.replace(Constant.JieXiStart4, "");
+        } else if (parseContent.contains(Constant.JieXiStart3)) {
             parseContent = parseContent.substring(2, parseContent.length());
         }
         this.parseContent = parseContent;
