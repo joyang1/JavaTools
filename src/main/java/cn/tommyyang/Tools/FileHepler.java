@@ -46,8 +46,12 @@ public class FileHepler {
                     }
 
                     Boolean timuStartFlag = false;
-                    if (line.length() > 3) {
+                    if (line.length() >= 3) {
                         timuStartFlag = qStart.contains(line.substring(0, 3)) || qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 1));
+                    }else if(line.length() >= 2){
+                        timuStartFlag = qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 1));
+                    }else if(line.length() >= 1){
+                        timuStartFlag = qStart.contains(line.substring(0, 1));
                     }
                     if (timuStartFlag) {
                         isTimuNow = true;
