@@ -100,7 +100,7 @@ public class FileHepler {
                         continue;
                     }
 
-                    if ((line.contains(Constant.DanAnStart1) || line.startsWith(Constant.DanAnStart2) || line.contains(Constant.DanAnStart3) || line.startsWith(Constant.DanAnStart4)|| line.startsWith(Constant.DanAnStart5)) && !isJiexiNow) {
+                    if ((line.contains(Constant.DanAnStart1) || line.startsWith(Constant.DanAnStart2) || line.contains(Constant.DanAnStart3) || line.startsWith(Constant.DanAnStart4)|| line.startsWith(Constant.DanAnStart5)|| line.startsWith(Constant.DanAnStart6)|| line.startsWith(Constant.DanAnStart7)) && !isJiexiNow) {
                         dananContent = line;
                         continue;
                     }
