@@ -101,10 +101,14 @@ public class Question {
             rightAnswer = rightAnswer.replace(Constant.DanAnStart2, "");
         } else if (rightAnswer.contains(Constant.DanAnStart3)) {
             rightAnswer = rightAnswer.replace(Constant.DanAnStart3, "");
-        } else if (rightAnswer.startsWith(Constant.DanAnStart4)) {
-            rightAnswer = rightAnswer.replace(Constant.DanAnStart4, "");
         } else if (rightAnswer.startsWith(Constant.DanAnStart5)) {
             rightAnswer = rightAnswer.replace(Constant.DanAnStart5, "");
+        } else if (rightAnswer.startsWith(Constant.DanAnStart6)) {
+            rightAnswer = rightAnswer.replace(Constant.DanAnStart6, "");
+        } else if (rightAnswer.startsWith(Constant.DanAnStart7)) {
+            rightAnswer = rightAnswer.replace(Constant.DanAnStart7, "");
+        }else if (rightAnswer.startsWith(Constant.DanAnStart4)) {
+            rightAnswer = rightAnswer.replace(Constant.DanAnStart4, "");
         }
         if (rightAnswer.trim().equals("A")) {
             rightAnswer = 1 + "";
