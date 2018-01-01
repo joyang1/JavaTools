@@ -13,14 +13,18 @@ import java.io.IOException;
  */
 public class WordTool {
 
-    public static String[] reaDoc(String docPath) throws IOException {
+    public static String reaDoc(String docPath) throws IOException {
         FileInputStream in;
         in = new FileInputStream(docPath);
         //HWPFDocument doc = new HWPFDocument(in);
         WordExtractor extractor = new WordExtractor(in);
         //XWPFDocument doc = new XWPFDocument(in);
         String[] strs = extractor.getParagraphText();
-        return strs;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String str: strs) {
+            stringBuilder.append(str);
+        }
+        return stringBuilder.toString();
     }
 
     public static String reaDocx(String docPath) throws IOException {

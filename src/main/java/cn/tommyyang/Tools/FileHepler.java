@@ -82,7 +82,7 @@ public class FileHepler {
                         cContent = line.substring(line.indexOf(cStart), line.indexOf(dStart));
                         dContent = line.substring(line.indexOf(dStart), line.length());
                         continue;
-                    } else if (line.startsWith(cStart) && line.startsWith(dStart) && !isJiexiNow && !isTimuNow) {
+                    } else if (line.startsWith(cStart) && line.contains(dStart) && !isJiexiNow && !isTimuNow) {
                         cContent = line.substring(line.indexOf(cStart), line.indexOf(dStart));
                         dContent = line.substring(line.indexOf(dStart), line.length());
                         continue;
@@ -210,22 +210,24 @@ public class FileHepler {
         String dFlag = jiexiOptionFlags.get(3);
         FileInputStream inputStream = null;
         StringBuilder sBuilder = new StringBuilder();
+        String line = "";
         try {
             inputStream = new FileInputStream(filePath);
             UnicodeReader unicodeReader = new UnicodeReader(inputStream, "UTF-8");
             BufferedReader bfReader = new BufferedReader(unicodeReader);
             while (bfReader.ready()) {
-                String line = Utils.formatLine(bfReader.readLine().trim());
-                String item = Constant.JieXi;
+                line = Utils.formatLine(bfReader.readLine().trim());
+                String jieXi = Constant.JieXi;
+                String danAn = Constant.DanAn;
                 Boolean tiHaoStartFlag = false;
                 if (line.length() > 3) {
                     tiHaoStartFlag = qStart.contains(line.substring(0, 1)) || qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 3));
                 }
                 int index = 0;
                 Boolean abcdflag = line.contains(aFlag) || line.contains(bFlag) || line.contains(cFlag) || line.contains(dFlag);
-                if (line.contains(item)) {
-                    if(line.contains(item + Constant.COMMA)){
-                        line = line.replace(item, Constant.DanAnStart1);
+                if (line.contains(jieXi)) {
+                    if(line.contains(jieXi + Constant.COMMA)){
+                        line = line.replace(jieXi, Constant.DanAnStart1);
                         index = line.indexOf(Constant.COMMA);
                     }else if(line.contains(Constant.AJieXi)){
                         line = line.replace(Constant.AJieXi, Constant.DanAnStart1 + "A" + Constant.COMMA);
@@ -241,72 +243,42 @@ public class FileHepler {
                         index =line.indexOf(Constant.COMMA);
                     }
 
-                }else if(line.contains(aFlag)){
+                }else if(line.contains(danAn)){
+                    line = line.replace(danAn, Constant.DanAnStart1);
+                    index = line.length();
+                } else if(line.contains(aFlag)){
                     line = line.replace(aFlag, Constant.DanAnStart1 + "A");
-                    index = line.indexOf(Constant.JieXiStart1);
+                    index = line.contains(Constant.JieXiStart1) ? line.indexOf(Constant.JieXiStart1) : line.indexOf(Constant.JieXiStart2);
                 }else if(line.contains(bFlag)){
                     line = line.replace(bFlag, Constant.DanAnStart1 + "B");
-                    index = line.indexOf(Constant.JieXiStart1);
+                    index = line.contains(Constant.JieXiStart1) ? line.indexOf(Constant.JieXiStart1) : line.indexOf(Constant.JieXiStart2);
                 }else if(line.contains(cFlag)){
                     line = line.replace(cFlag, Constant.DanAnStart1 + "C");
-                    index = line.indexOf(Constant.JieXiStart1);
+                    index = line.contains(Constant.JieXiStart1) ? line.indexOf(Constant.JieXiStart1) : line.indexOf(Constant.JieXiStart2);
                 }else if(line.contains(dFlag)){
                     line = line.replace(dFlag, Constant.DanAnStart1 + "D");
-                    index = line.indexOf(Constant.JieXiStart1);
+                    index = line.contains(Constant.JieXiStart1) ? line.indexOf(Constant.JieXiStart1) : line.indexOf(Constant.JieXiStart2);
                 }
                 if (tiHaoStartFlag && abcdflag) {
                     sBuilder.append(line.substring(0, index)).append(Constant.LineFlag).append(line.substring(index, line.length())).append(Constant.LineFlag);
-                } else if(tiHaoStartFlag){
+                } else if(tiHaoStartFlag && !line.contains(Constant.JieXiStart1) && !line.contains(Constant.JieXiStart2) && line.length() > index){
                     sBuilder.append(line.substring(0, index)).append(Constant.LineFlag).append("解析:").append(line.substring(index + 1, line.length())).append(Constant.LineFlag);
+                }else if(tiHaoStartFlag && line.contains(Constant.DanAnStart1) &&
+                        (line.contains(Constant.JieXiStart1) || line.contains(Constant.JieXiStart2))){
+                    int pos = line.contains(Constant.JieXiStart1) ? line.indexOf(Constant.JieXiStart1) : line.indexOf(Constant.JieXiStart2);
+                    sBuilder.append(line.substring(0, pos)).append(Constant.LineFlag).append(line.substring(pos, line.length())).append(Constant.LineFlag);
                 }else {
                     sBuilder.append(line).append(Constant.LineFlag);
                 }
             }
             return sBuilder.toString();
         } catch (Exception e) {
+            System.out.println(line);
             e.printStackTrace();
         }
         return null;
     }
 
-    public static List<String> getJiexi(String filePath) {
-        Set<String> qStart = Utils.getStartFlags();
-        FileInputStream inputStream = null;
-        StringBuilder sBuilder = new StringBuilder();
-        try {
-            inputStream = new FileInputStream(filePath);
-            UnicodeReader unicodeReader = new UnicodeReader(inputStream, "UTF-8");
-            BufferedReader bfReader = new BufferedReader(unicodeReader);
-            while (bfReader.ready()) {
-                String line = bfReader.readLine();
-                String item = Constant.JieXi;
-                Boolean tiHaoStartFlag = false;
-                if (line.length() > 3) {
-                    tiHaoStartFlag = qStart.contains(line.substring(0, 1)) || qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 3));
-                }
-                if (line.contains(item)) {
-                    line = line.replace(item, Constant.DanAnStart1);
-                }
-                if (tiHaoStartFlag) {
-                    int index = line.indexOf(Constant.COMMA);
-                    sBuilder.append(line.substring(0, index)).append(Constant.LineFlag).append("解析:").append(line.substring(index + 1, line.length())).append(Constant.LineFlag);
-                } else {
-                    sBuilder.append(line).append(Constant.LineFlag);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
-    }
 
     public static void combineTxt(String txtContentPath, String txtJiexiPath) {
         FileInputStream contentInputStream = null;
@@ -387,7 +359,7 @@ public class FileHepler {
                                 addLine = jiexiLine.replace(jiexiTihao + Constant.POINT_ZH, "");
                             }
                             sbJiexi.append(addLine).append(Constant.LineFlag);
-                        } else if (jiexiStartFlag && tiHao >= 1 && jiexiLine.substring(0, 2).equals(tiHao + "")) {
+                        } else if (jiexiStartFlag && tiHao >= 1 && jiexiLine.substring(0, 1).equals(tiHao + "")) {
                             jiexiTihao = Integer.parseInt(jiexiLine.substring(0, 1));
                             String addLine = "";
                             if(jiexiLine.startsWith(jiexiTihao + Constant.POINT)){
