@@ -19,13 +19,13 @@ public class RunTest {
 
 
     public static void main(String[] args){
-        runtest();
+        runtxtToExcel();
         //runword();
-        //runTxtJiexi();
+        //runFormatTxtJiexi();
         //runTxtAddJiexi();
     }
 
-    private static  void runtest(){
+    private static  void runtxtToExcel(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("设置试卷号(设置完点击Enter键即可):");
         Question.timustart = scanner.nextLine();
@@ -58,10 +58,10 @@ public class RunTest {
         }
     }
 
-    private static void runTxtJiexi(){
-        String path = "E:\\runtest\\解析.txt";
+    private static void runFormatTxtJiexi(){
+        String path = "E:\\runtest2\\2018招警行测模拟题一答案.txt";
         String content = FileHepler.generateJiexi(path);
-        FileHepler.writeContentToTxt(content, "E:\\runtest\\jiexiresult.txt");
+        FileHepler.writeContentToTxt(content, "E:\\runtest2\\jiexiresult.txt");
     }
 
     private static void runTxtAddJiexi(){
@@ -87,7 +87,13 @@ public class RunTest {
                 File[] files = directory.listFiles();
                 for (File file: files) {
                     String wordPath = file.getAbsolutePath();
-                    String content = WordTool.reaDocx(wordPath);
+                    String content;
+                    if(file.getName().endsWith("doc")){
+                        content = WordTool.reaDoc(wordPath);
+                    }else {
+                        content= WordTool.reaDocx(wordPath);
+                    }
+
                     String desPath = path +"\\"+ Utils.getFileName(file.getName());
                     FileHepler.writeContentToTxt(content, desPath);
                 }

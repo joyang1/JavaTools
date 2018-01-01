@@ -66,6 +66,7 @@ public class Utils {
     }
 
     public static String formatLine(String line){
+        line.replace(" ","");
         String aerror = "A．";
         String berror = "B．";
         String cerror = "C．";

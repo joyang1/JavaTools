@@ -18,6 +18,7 @@ public class Constant {
     public final static String JieXiStart4 = "【解析】";
 
     public final static String JieXi = "【解析】";
+    public final static String DanAn = "【答案】";
     public final static String AJieXi = "A【解析】";
     public final static String BJieXi = "B【解析】";
     public final static String CJieXi = "C【解析】";

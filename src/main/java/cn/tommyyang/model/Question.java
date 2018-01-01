@@ -95,28 +95,13 @@ public class Question {
     }
 
     public void setRightAnswer(String rightAnswer) {
-        if (rightAnswer.contains(Constant.DanAnStart1)) {
-            rightAnswer = rightAnswer.replace(Constant.DanAnStart1, "");
-        } else if (rightAnswer.startsWith(Constant.DanAnStart2)) {
-            rightAnswer = rightAnswer.replace(Constant.DanAnStart2, "");
-        } else if (rightAnswer.contains(Constant.DanAnStart3)) {
-            rightAnswer = rightAnswer.replace(Constant.DanAnStart3, "");
-        } else if (rightAnswer.startsWith(Constant.DanAnStart5)) {
-            rightAnswer = rightAnswer.replace(Constant.DanAnStart5, "");
-        } else if (rightAnswer.startsWith(Constant.DanAnStart6)) {
-            rightAnswer = rightAnswer.replace(Constant.DanAnStart6, "");
-        } else if (rightAnswer.startsWith(Constant.DanAnStart7)) {
-            rightAnswer = rightAnswer.replace(Constant.DanAnStart7, "");
-        }else if (rightAnswer.startsWith(Constant.DanAnStart4)) {
-            rightAnswer = rightAnswer.replace(Constant.DanAnStart4, "");
-        }
-        if (rightAnswer.trim().equals("A")) {
+        if (rightAnswer.trim().contains("A")) {
             rightAnswer = 1 + "";
-        } else if (rightAnswer.trim().equals("B")) {
+        } else if (rightAnswer.trim().contains("B")) {
             rightAnswer = 2 + "";
-        } else if (rightAnswer.trim().equals("C")) {
+        } else if (rightAnswer.trim().contains("C")) {
             rightAnswer = 3 + "";
-        } else if (rightAnswer.trim().equals("D")) {
+        } else if (rightAnswer.trim().contains("D")) {
             rightAnswer = 4 + "";
         }
         this.rightAnswer = rightAnswer;
