@@ -48,16 +48,16 @@ public class FileHepler {
                     Boolean timuStartFlag = false;
                     if (line.length() >= 3) {
                         timuStartFlag = qStart.contains(line.substring(0, 3)) || qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 1));
-                    }else if(line.length() >= 2){
+                    } else if (line.length() >= 2) {
                         timuStartFlag = qStart.contains(line.substring(0, 2)) || qStart.contains(line.substring(0, 1));
-                    }else if(line.length() >= 1){
+                    } else if (line.length() >= 1) {
                         timuStartFlag = qStart.contains(line.substring(0, 1));
                     }
                     if (timuStartFlag) {
                         isTimuNow = true;
                     }
 
-                    Boolean isJieXiStart = line.contains(Constant.JieXiStart1) || line.contains(Constant.JieXiStart2) || line.startsWith(Constant.JieXiStart3)  || line.startsWith(Constant.JieXiStart4);
+                    Boolean isJieXiStart = line.contains(Constant.JieXiStart1) || line.contains(Constant.JieXiStart2) || line.startsWith(Constant.JieXiStart3) || line.startsWith(Constant.JieXiStart4);
                     if (isJieXiStart) {
                         isJiexiNow = true;
                     }
@@ -100,7 +100,7 @@ public class FileHepler {
                         continue;
                     }
 
-                    if ((line.contains(Constant.DanAnStart1) || line.startsWith(Constant.DanAnStart2) || line.contains(Constant.DanAnStart3) || line.startsWith(Constant.DanAnStart4)|| line.startsWith(Constant.DanAnStart5)|| line.startsWith(Constant.DanAnStart6)|| line.startsWith(Constant.DanAnStart7)) && !isJiexiNow) {
+                    if ((line.contains(Constant.DanAnStart1) || line.startsWith(Constant.DanAnStart2) || line.contains(Constant.DanAnStart3) || line.startsWith(Constant.DanAnStart4) || line.startsWith(Constant.DanAnStart5) || line.startsWith(Constant.DanAnStart6) || line.startsWith(Constant.DanAnStart7)) && !isJiexiNow) {
                         dananContent = line;
                         continue;
                     }
@@ -226,48 +226,56 @@ public class FileHepler {
                 int index = 0;
                 Boolean abcdflag = line.contains(aFlag) || line.contains(bFlag) || line.contains(cFlag) || line.contains(dFlag);
                 if (line.contains(jieXi)) {
-                    if(line.contains(jieXi + Constant.COMMA)){
+                    if (line.contains(jieXi + Constant.COMMA)) {
                         line = line.replace(jieXi, Constant.DanAnStart1);
                         index = line.indexOf(Constant.COMMA);
-                    }else if(line.contains(Constant.AJieXi)){
-                        line = line.replace(Constant.AJieXi, Constant.DanAnStart1 + "A" + Constant.COMMA);
-                        index =line.indexOf(Constant.COMMA);
-                    }else if(line.contains(Constant.BJieXi)){
-                        line = line.replace(Constant.BJieXi, Constant.DanAnStart1 + "B" + Constant.COMMA);
-                        index =line.indexOf(Constant.COMMA);
-                    }else if(line.contains(Constant.CJieXi)){
-                        line = line.replace(Constant.CJieXi, Constant.DanAnStart1 + "C" + Constant.COMMA);
-                        index =line.indexOf(Constant.COMMA);
-                    }else if(line.contains(Constant.DJieXi)){
-                        line = line.replace(Constant.DJieXi, Constant.DanAnStart1 + "D" + Constant.COMMA);
-                        index =line.indexOf(Constant.COMMA);
+                    } else if (line.contains(Constant.AJieXi) || line.contains(Constant.AJieXi1)) {
+                        line = line.contains(Constant.AJieXi) ?
+                                line.replace(Constant.AJieXi, Constant.DanAnStart1 + "A" + Constant.COMMA)
+                                : line.replace(Constant.AJieXi1, Constant.DanAnStart1 + "A" + Constant.COMMA);
+                        index = line.indexOf(Constant.COMMA);
+                    } else if (line.contains(Constant.BJieXi) || line.contains(Constant.BJieXi1)) {
+                        line = line.contains(Constant.BJieXi) ?
+                                line.replace(Constant.BJieXi, Constant.DanAnStart1 + "B" + Constant.COMMA)
+                                : line.replace(Constant.BJieXi1, Constant.DanAnStart1 + "B" + Constant.COMMA);
+                        index = line.indexOf(Constant.COMMA);
+                    } else if (line.contains(Constant.CJieXi) || line.contains(Constant.CJieXi1)) {
+                        line = line.contains(Constant.CJieXi) ?
+                                line.replace(Constant.CJieXi, Constant.DanAnStart1 + "C" + Constant.COMMA)
+                                : line.replace(Constant.CJieXi1, Constant.DanAnStart1 + "C" + Constant.COMMA);
+                        index = line.indexOf(Constant.COMMA);
+                    } else if (line.contains(Constant.DJieXi) || line.contains(Constant.DJieXi1)) {
+                        line = line.contains(Constant.DJieXi) ?
+                                line.replace(Constant.DJieXi, Constant.DanAnStart1 + "D" + Constant.COMMA)
+                                : line.replace(Constant.DJieXi1, Constant.DanAnStart1 + "D" + Constant.COMMA);
+                        index = line.indexOf(Constant.COMMA);
                     }
 
-                }else if(line.contains(danAn)){
+                } else if (line.contains(danAn)) {
                     line = line.replace(danAn, Constant.DanAnStart1);
                     index = line.length();
-                } else if(line.contains(aFlag)){
+                } else if (line.contains(aFlag)) {
                     line = line.replace(aFlag, Constant.DanAnStart1 + "A");
                     index = line.contains(Constant.JieXiStart1) ? line.indexOf(Constant.JieXiStart1) : line.indexOf(Constant.JieXiStart2);
-                }else if(line.contains(bFlag)){
+                } else if (line.contains(bFlag)) {
                     line = line.replace(bFlag, Constant.DanAnStart1 + "B");
                     index = line.contains(Constant.JieXiStart1) ? line.indexOf(Constant.JieXiStart1) : line.indexOf(Constant.JieXiStart2);
-                }else if(line.contains(cFlag)){
+                } else if (line.contains(cFlag)) {
                     line = line.replace(cFlag, Constant.DanAnStart1 + "C");
                     index = line.contains(Constant.JieXiStart1) ? line.indexOf(Constant.JieXiStart1) : line.indexOf(Constant.JieXiStart2);
-                }else if(line.contains(dFlag)){
+                } else if (line.contains(dFlag)) {
                     line = line.replace(dFlag, Constant.DanAnStart1 + "D");
                     index = line.contains(Constant.JieXiStart1) ? line.indexOf(Constant.JieXiStart1) : line.indexOf(Constant.JieXiStart2);
                 }
                 if (tiHaoStartFlag && abcdflag) {
                     sBuilder.append(line.substring(0, index)).append(Constant.LineFlag).append(line.substring(index, line.length())).append(Constant.LineFlag);
-                } else if(tiHaoStartFlag && !line.contains(Constant.JieXiStart1) && !line.contains(Constant.JieXiStart2) && line.length() > index){
+                } else if (tiHaoStartFlag && !line.contains(Constant.JieXiStart1) && !line.contains(Constant.JieXiStart2) && line.length() > index) {
                     sBuilder.append(line.substring(0, index)).append(Constant.LineFlag).append("解析:").append(line.substring(index + 1, line.length())).append(Constant.LineFlag);
-                }else if(tiHaoStartFlag && line.contains(Constant.DanAnStart1) &&
-                        (line.contains(Constant.JieXiStart1) || line.contains(Constant.JieXiStart2))){
+                } else if (tiHaoStartFlag && line.contains(Constant.DanAnStart1) &&
+                        (line.contains(Constant.JieXiStart1) || line.contains(Constant.JieXiStart2))) {
                     int pos = line.contains(Constant.JieXiStart1) ? line.indexOf(Constant.JieXiStart1) : line.indexOf(Constant.JieXiStart2);
                     sBuilder.append(line.substring(0, pos)).append(Constant.LineFlag).append(line.substring(pos, line.length())).append(Constant.LineFlag);
-                }else {
+                } else {
                     sBuilder.append(line).append(Constant.LineFlag);
                 }
             }
@@ -344,27 +352,27 @@ public class FileHepler {
                         if (jiexiStartFlag && tiHao >= 100 && jiexiLine.substring(0, 3).equals(tiHao + "")) {
                             jiexiTihao = Integer.parseInt(jiexiLine.substring(0, 3));
                             String addLine = "";
-                            if(jiexiLine.startsWith(jiexiTihao + Constant.POINT)){
+                            if (jiexiLine.startsWith(jiexiTihao + Constant.POINT)) {
                                 addLine = jiexiLine.replace(jiexiTihao + Constant.POINT, "");
-                            }else if(jiexiLine.startsWith(jiexiTihao + Constant.POINT_ZH)){
+                            } else if (jiexiLine.startsWith(jiexiTihao + Constant.POINT_ZH)) {
                                 addLine = jiexiLine.replace(jiexiTihao + Constant.POINT_ZH, "");
                             }
                             sbJiexi.append(addLine).append(Constant.LineFlag);
                         } else if (jiexiStartFlag && tiHao >= 10 && jiexiLine.substring(0, 2).equals(tiHao + "")) {
                             jiexiTihao = Integer.parseInt(jiexiLine.substring(0, 2));
                             String addLine = "";
-                            if(jiexiLine.startsWith(jiexiTihao + Constant.POINT)){
+                            if (jiexiLine.startsWith(jiexiTihao + Constant.POINT)) {
                                 addLine = jiexiLine.replace(jiexiTihao + Constant.POINT, "");
-                            }else if(jiexiLine.startsWith(jiexiTihao + Constant.POINT_ZH)){
+                            } else if (jiexiLine.startsWith(jiexiTihao + Constant.POINT_ZH)) {
                                 addLine = jiexiLine.replace(jiexiTihao + Constant.POINT_ZH, "");
                             }
                             sbJiexi.append(addLine).append(Constant.LineFlag);
                         } else if (jiexiStartFlag && tiHao >= 1 && jiexiLine.substring(0, 1).equals(tiHao + "")) {
                             jiexiTihao = Integer.parseInt(jiexiLine.substring(0, 1));
                             String addLine = "";
-                            if(jiexiLine.startsWith(jiexiTihao + Constant.POINT)){
+                            if (jiexiLine.startsWith(jiexiTihao + Constant.POINT)) {
                                 addLine = jiexiLine.replace(jiexiTihao + Constant.POINT, "");
-                            }else if(jiexiLine.startsWith(jiexiTihao + Constant.POINT_ZH)){
+                            } else if (jiexiLine.startsWith(jiexiTihao + Constant.POINT_ZH)) {
                                 addLine = jiexiLine.replace(jiexiTihao + Constant.POINT_ZH, "");
                             }
                             sbJiexi.append(addLine).append(Constant.LineFlag);
@@ -386,7 +394,7 @@ public class FileHepler {
             if (sb.length() > 0) {
                 File file = new File(txtContentPath);
                 if (file.exists()) {
-                    String newTxtName = file.getName().replace(".txt","") + "_new.txt";
+                    String newTxtName = file.getName().replace(".txt", "") + "_new.txt";
                     writeContentToTxt(sb.toString(), "E:\\runtest1\\" + newTxtName);
                 }
             }
@@ -394,8 +402,8 @@ public class FileHepler {
             if (sb.length() > 0) {
                 File file = new File(txtContentPath);
                 if (file.exists()) {
-                    String newTxtName = file.getName().replace(".txt","") + "_new.txt";
-                    writeContentToTxt(sb.toString(),  "E:\\runtest1\\" +  newTxtName);
+                    String newTxtName = file.getName().replace(".txt", "") + "_new.txt";
+                    writeContentToTxt(sb.toString(), "E:\\runtest1\\" + newTxtName);
                 }
             }
         } finally {
@@ -403,7 +411,7 @@ public class FileHepler {
                 if (contentInputStream != null) {
                     contentInputStream.close();
                 }
-                if(jiexiInputStream != null){
+                if (jiexiInputStream != null) {
                     jiexiInputStream.close();
                 }
             } catch (IOException e) {

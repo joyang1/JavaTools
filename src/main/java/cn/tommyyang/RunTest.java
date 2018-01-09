@@ -59,7 +59,7 @@ public class RunTest {
     }
 
     private static void runFormatTxtJiexi(){
-        String path = "E:\\runtest2\\2018招警行测模拟题一答案.txt";
+        String path = "E:\\runtest2\\答案5.txt";
         String content = FileHepler.generateJiexi(path);
         FileHepler.writeContentToTxt(content, "E:\\runtest2\\jiexiresult.txt");
     }
