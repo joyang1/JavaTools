@@ -1,4 +1,4 @@
-package cn.tommyyang.Constant;
+package cn.tommyyang.tools.filetool.Constant;
 
 /**
  * Created by TommyYang on 2017/11/22.

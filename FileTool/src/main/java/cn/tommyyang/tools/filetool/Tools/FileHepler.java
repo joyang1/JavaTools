@@ -1,7 +1,7 @@
-package cn.tommyyang.Tools;
+package cn.tommyyang.tools.filetool.Tools;
 
-import cn.tommyyang.Constant.Constant;
-import cn.tommyyang.model.Question;
+import cn.tommyyang.tools.filetool.Constant.Constant;
+import cn.tommyyang.tools.filetool.model.Question;
 
 import java.io.*;
 import java.util.ArrayList;
