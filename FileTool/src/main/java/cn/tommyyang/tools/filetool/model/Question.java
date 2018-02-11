@@ -1,6 +1,6 @@
-package cn.tommyyang.model;
+package cn.tommyyang.tools.filetool.model;
 
-import cn.tommyyang.Constant.Constant;
+import cn.tommyyang.tools.filetool.Constant.Constant;
 
 /**
  * Created by TommyYang on 2017/11/19.
