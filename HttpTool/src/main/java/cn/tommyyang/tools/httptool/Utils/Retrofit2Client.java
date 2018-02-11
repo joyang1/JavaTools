@@ -7,18 +7,29 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by TommyYang on 2018/2/11.
  */
-public class RetrofitUtils {
+public enum Retrofit2Client {
 
-    public static Retrofit getInstance(){
-        //获取实例
-        Retrofit retrofit = new Retrofit.Builder()
+    INSTANCE;
+
+    private final Retrofit retrofit;
+
+    /**
+     *
+     * 如果有多个baseUrl 则此处创建Retrofit.Builder对象
+     *
+     * */
+    Retrofit2Client(){
+        retrofit = new Retrofit.Builder()
                 //设置OKHttpClient,如果不设置会提供一个默认的
-                .client(new OkHttpClient())
+                .client(OKHttp.INSTANCE.getOkHttpClient())
                 //设置baseUrl
                 .baseUrl("https://api.github.com/")
                 //添加Gson转换器
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+    }
+
+    public Retrofit getRetrofit2Client() {
         return retrofit;
     }
 
