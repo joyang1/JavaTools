@@ -1,6 +1,6 @@
 package cn.tommyyang.tools.httptool;
 
-import cn.tommyyang.tools.httptool.Utils.Retrofit2Client;
+import cn.tommyyang.tools.httptool.Utils.Retrofit.Retrofit2Client;
 import cn.tommyyang.tools.httptool.model.Repo;
 import cn.tommyyang.tools.httptool.service.IGithubService;
 import org.slf4j.Logger;

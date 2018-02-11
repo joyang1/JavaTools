@@ -1,6 +1,5 @@
-package cn.tommyyang.tools.httptool.Utils;
+package cn.tommyyang.tools.httptool.Utils.Retrofit;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
