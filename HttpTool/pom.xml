@@ -12,6 +12,18 @@
     <groupId>cn.tommyyang.tools.httptool</groupId>
     <artifactId>httptool</artifactId>
 
+
+    <dependencies>
+        <dependency>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>retrofit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>converter-gson</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
