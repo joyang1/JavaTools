@@ -23,6 +23,10 @@
             <artifactId>converter-gson</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
@@ -43,7 +47,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>cn.tommyyang.tools.httptool.RunTest</mainClass>
+                                    <mainClass>cn.tommyyang.tools.httptool.HttpToolTest</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

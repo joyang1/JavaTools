@@ -8,21 +8,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public enum Retrofit2Client {
 
-    INSTANCE;
+    INSTANCE_GITHUB("https://api.github.com/"),
+    INSTANCE_TEST("http://localhost:8080/");
 
     private final Retrofit retrofit;
+
+    //private final static String baseUrl = "https://api.github.com/";
+    //private final static String baseUrl = "http://webuser.api.****.com/";
 
     /**
      *
      * 如果有多个baseUrl 则此处创建Retrofit.Builder对象
      *
      * */
-    Retrofit2Client(){
+    Retrofit2Client(String baseUrl){
         retrofit = new Retrofit.Builder()
                 //设置OKHttpClient,如果不设置会提供一个默认的
                 .client(OKHttp.INSTANCE.getOkHttpClient())
                 //设置baseUrl
-                .baseUrl("https://api.github.com/")
+                .baseUrl(baseUrl)
                 //添加Gson转换器
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
