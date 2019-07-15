@@ -28,7 +28,7 @@ public class HttpToolTest {
 
     //同步执行retrofit http请求
     public static void sync() {
-        Call<List<Repo>> call = githubService.listRepos("joyang1");
+        Call<List<Repo>> call = githubService.listRepos("testZyhGitHub");
         try {
             Response<List<Repo>> repos = call.execute();
             logger.info("sync github repos size:" + repos.body().size());
