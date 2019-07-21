@@ -20,9 +20,9 @@ public class FileToolTest {
 
 
     public static void main(String[] args){
-        runtxtToExcel();
-        //runword();
-        //runFormatTxtJiexi();
+//        runtxtToExcel();
+        runword();
+//        runFormatTxtJiexi();
         //runTxtAddJiexi();
     }
 
@@ -31,7 +31,7 @@ public class FileToolTest {
         System.out.println("设置试卷号(设置完点击Enter键即可):");
         Question.timustart = scanner.nextLine();
 
-        String path = "E:\\runtest";
+        String path = "D:\\runtest";
         File directory = new File(path);
         if(directory.isDirectory()){
             File[] files = directory.listFiles();
@@ -60,14 +60,14 @@ public class FileToolTest {
     }
 
     private static void runFormatTxtJiexi(){
-        String path = "E:\\runtest2\\答案5.txt";
+        String path = "D:\\runtest2\\答案5.txt";
         String content = FileHepler.generateJiexi(path);
         FileHepler.writeContentToTxt(content, "E:\\runtest2\\jiexiresult.txt");
     }
 
     private static void runTxtAddJiexi(){
-        String txtJiexiPath = "E:\\runtest2\\jiexiresult.txt";
-        String path = "E:\\runtest1";
+        String txtJiexiPath = "D:\\runtest2\\jiexiresult.txt";
+        String path = "D:\\runtest1";
         File directory = new File(path);
         if(directory.isDirectory()){
             File[] files = directory.listFiles();
@@ -81,7 +81,7 @@ public class FileToolTest {
     }
 
     private static void runword(){
-        String path = "E:\\runtest1";
+        String path = "D:\\runtest1";
         try {
             File directory = new File(path);
             if(directory.exists()){
@@ -91,8 +91,10 @@ public class FileToolTest {
                     String content;
                     if(file.getName().endsWith("doc")){
                         content = WordTool.reaDoc(wordPath);
-                    }else {
+                    }else if (file.getName().endsWith("docx")) {
                         content= WordTool.reaDocx(wordPath);
+                    } else {
+                        continue;
                     }
 
                     String desPath = path +"\\"+ Utils.getFileName(file.getName());

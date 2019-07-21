@@ -12,6 +12,7 @@ public class Constant {
     public final static String DanAnStart6 = "【正确答案";
     public final static String DanAnStart7 = "正确答案】";
     public final static String DanAnStart3 = "正确答案:";
+    public final static String DanAnStart8 = "答案：";
     public final static String JieXiStart1 = "解析：";
     public final static String JieXiStart2 = "解析:";
     public final static String JieXiStart3 = "解析";
