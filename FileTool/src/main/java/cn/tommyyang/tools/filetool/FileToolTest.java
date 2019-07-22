@@ -20,8 +20,8 @@ public class FileToolTest {
 
 
     public static void main(String[] args){
-//        runtxtToExcel();
-        runword();
+        runtxtToExcel();
+//        runword();
 //        runFormatTxtJiexi();
         //runTxtAddJiexi();
     }
